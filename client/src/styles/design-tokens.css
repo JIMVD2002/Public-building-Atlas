@@ -1,0 +1,112 @@
+/*
+ * Design Tokens - Easy to Replace with Figma Exports
+ *
+ * These variables define the visual design of the app.
+ * When you have Figma designs, export design tokens and replace these values.
+ *
+ * Figma → Export → CSS Variables or Design Tokens → Paste here
+ */
+
+:root {
+  /* === COLORS === */
+  /* Primary Colors */
+  --color-primary: #000000;
+  --color-primary-hover: #1a1a1a;
+  --color-primary-light: rgba(0, 0, 0, 0.05);
+
+  /* Background Colors */
+  --color-bg-main: #f8f9fa;
+  --color-bg-card: #ffffff;
+  --color-bg-input: #ffffff;
+  --color-bg-disabled: #f9fafb;
+
+  /* Text Colors */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6c757d;
+  --color-text-tertiary: #9ca3af;
+  --color-text-on-dark: #ffffff;
+
+  /* Border Colors */
+  --color-border-light: #e5e7eb;
+  --color-border-medium: #d1d5db;
+  --color-border-focus: #000000;
+
+  /* Message Bubble Colors */
+  --color-user-bubble: #000000;
+  --color-ai-bubble: #f3f4f6;
+  --color-error-bubble: #fee;
+  --color-error-border: #fcc;
+  --color-error-text: #c00;
+
+  /* Project Card Colors */
+  --color-project-bg: #ffffff;
+  --color-project-border: #e5e7eb;
+  --color-project-border-hover: #d1d5db;
+  --color-project-divider: #f3f4f6;
+
+  /* === TYPOGRAPHY === */
+  /* Font Families */
+  --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+  /* Font Sizes */
+  --font-size-xs: 0.825rem;    /* 13px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 0.95rem;   /* 15px */
+  --font-size-md: 1rem;        /* 16px */
+  --font-size-lg: 1.5rem;      /* 24px */
+  --font-size-xl: 2rem;        /* 32px */
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Line Heights */
+  --line-height-tight: 1.5;
+  --line-height-normal: 1.6;
+
+  /* === SPACING === */
+  --spacing-xs: 0.5rem;    /* 8px */
+  --spacing-sm: 0.75rem;   /* 12px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.25rem;   /* 20px */
+  --spacing-xl: 1.5rem;    /* 24px */
+  --spacing-2xl: 2rem;     /* 32px */
+
+  /* === BORDER RADIUS === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* === SHADOWS === */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(0, 0, 0, 0.05);
+
+  /* === TRANSITIONS === */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+
+  /* === LAYOUT === */
+  --max-width-chat: 800px;
+  --chat-height-min: 500px;
+  --chat-height-max: 700px;
+  --chat-height-mobile: 75vh;
+
+  /* === Z-INDEX === */
+  --z-index-base: 1;
+  --z-index-overlay: 10;
+  --z-index-modal: 100;
+}
+
+/* === MOBILE OVERRIDES === */
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 0.9rem;
+    --font-size-lg: 1.25rem;
+    --spacing-md: 0.875rem;
+    --spacing-lg: 1rem;
+  }
+}

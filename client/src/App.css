@@ -1,7 +1,13 @@
 /*
  * Studio Archive AI - Clean, Minimal Design
  * Inspired by Grokpedia's centered, focused interface
+ *
+ * 🎨 TO CUSTOMIZE: Edit design tokens in /src/styles/design-tokens.css
+ * 📖 FIGMA GUIDE: See /src/design/FIGMA-INTEGRATION.md
  */
+
+/* Import design tokens */
+@import './styles/design-tokens.css';
 
 * {
   margin: 0;
@@ -10,13 +16,11 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8f9fa;
-  color: #212529;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
 }
 
 .app {
@@ -24,32 +28,32 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem;
+  padding: var(--spacing-2xl) var(--spacing-md);
 }
 
 /* Header */
 .app-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-2xl);
 }
 
 .app-title {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
 .app-subtitle {
-  font-size: 1rem;
-  color: #6c757d;
-  font-weight: 400;
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-normal);
 }
 
 /* Main Content */
 .app-main {
   width: 100%;
-  max-width: 800px;
+  max-width: var(--max-width-chat);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -57,14 +61,14 @@ body {
 
 /* Chat Container */
 .chat-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   height: 70vh;
-  min-height: 500px;
-  max-height: 700px;
+  min-height: var(--chat-height-min);
+  max-height: var(--chat-height-max);
   overflow: hidden;
 }
 
@@ -121,21 +125,21 @@ body {
 }
 
 .message-user .message-content {
-  background-color: #000;
-  color: white;
-  border-bottom-right-radius: 4px;
+  background-color: var(--color-user-bubble);
+  color: var(--color-text-on-dark);
+  border-bottom-right-radius: var(--radius-sm);
 }
 
 .message-ai .message-content {
-  background-color: #f3f4f6;
-  color: #1a1a1a;
-  border-bottom-left-radius: 4px;
+  background-color: var(--color-ai-bubble);
+  color: var(--color-text-primary);
+  border-bottom-left-radius: var(--radius-sm);
 }
 
 .message-error .message-content {
-  background-color: #fee;
-  color: #c00;
-  border: 1px solid #fcc;
+  background-color: var(--color-error-bubble);
+  color: var(--color-error-text);
+  border: 1px solid var(--color-error-border);
 }
 
 .message-text {
@@ -268,13 +272,13 @@ body {
 }
 
 .send-button {
-  padding: 0.75rem 1.25rem;
-  background-color: #000;
-  color: white;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-primary);
+  color: var(--color-text-on-dark);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,7 +286,7 @@ body {
 }
 
 .send-button:hover:not(:disabled) {
-  background-color: #1a1a1a;
+  background-color: var(--color-primary-hover);
   transform: translateY(-1px);
 }
 

@@ -8,16 +8,20 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 /**
  * Send a chat message to the backend
  * @param {string} message - The user's message
+ * @param {Array} conversationHistory - Previous messages in the conversation
  * @returns {Promise<Object>} - Returns { answer: string, projects: Array }
  */
-export async function sendMessage(message) {
+export async function sendMessage(message, conversationHistory = []) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({
+        message,
+        conversationHistory
+      }),
     });
 
     if (!response.ok) {

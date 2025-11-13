@@ -42,8 +42,28 @@ const ChatInterface = () => {
     setIsLoading(true);
 
     try {
-      // Call the API
-      const response = await sendMessage(userMessage);
+      // Build conversation history for DeepSeek (skip welcome message and only include user/ai exchanges)
+      const conversationHistory = messages
+        .filter(msg => msg.type === 'user' || msg.type === 'ai')
+        .slice(1) // Skip initial welcome message
+        .map(msg => {
+          if (msg.type === 'user') {
+            return {
+              role: 'user',
+              content: msg.content
+            };
+          } else if (msg.type === 'ai') {
+            return {
+              role: 'assistant',
+              content: msg.content.answer
+            };
+          }
+          return null;
+        })
+        .filter(msg => msg !== null);
+
+      // Call the API with conversation history
+      const response = await sendMessage(userMessage, conversationHistory);
 
       // Add AI response to chat
       setMessages(prev => [

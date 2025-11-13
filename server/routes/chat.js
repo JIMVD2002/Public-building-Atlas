@@ -52,7 +52,7 @@ function findRelevantProjects(userMessage, maxResults = 8) {
  */
 router.post('/', async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message, conversationHistory } = req.body;
 
     // Validate input
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
@@ -72,8 +72,8 @@ router.post('/', async (req, res) => {
       });
     }
 
-    // Call DeepSeek API with the user message and relevant projects
-    const aiResponse = await callDeepSeek(message, relevantProjects);
+    // Call DeepSeek API with the user message, relevant projects, and conversation history
+    const aiResponse = await callDeepSeek(message, relevantProjects, conversationHistory || []);
 
     // Return the response
     res.json({
