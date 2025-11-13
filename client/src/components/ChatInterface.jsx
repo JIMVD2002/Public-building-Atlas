@@ -16,19 +16,6 @@ const ChatInterface = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Add initial welcome message
-  useEffect(() => {
-    setMessages([
-      {
-        type: 'ai',
-        content: {
-          answer: "Hi! I'm your Studio Archive AI assistant. Ask me anything about student projects in our archive. For example, try asking: 'What projects could help with mental health?' or 'Show me productivity tools.'",
-          projects: []
-        }
-      }
-    ]);
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,10 +29,9 @@ const ChatInterface = () => {
     setIsLoading(true);
 
     try {
-      // Build conversation history for DeepSeek (skip welcome message and only include user/ai exchanges)
+      // Build conversation history for DeepSeek (only include user/ai exchanges)
       const conversationHistory = messages
         .filter(msg => msg.type === 'user' || msg.type === 'ai')
-        .slice(1) // Skip initial welcome message
         .map(msg => {
           if (msg.type === 'user') {
             return {

@@ -15,15 +15,41 @@ const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
  * @param {string} userMessage - The user's question
  * @param {Array} relevantProjects - Array of relevant projects to include in the prompt
  * @param {Array} conversationHistory - Previous messages in the conversation
+ * @param {boolean} isSmallTalk - Whether this is casual conversation (no projects needed)
  * @returns {Promise<Object>} - Returns { answer: string, projects: Array }
  */
-async function callDeepSeek(userMessage, relevantProjects, conversationHistory = []) {
+async function callDeepSeek(userMessage, relevantProjects, conversationHistory = [], isSmallTalk = false) {
   if (!DEEPSEEK_API_KEY) {
     throw new Error('DEEPSEEK_API_KEY is not set. Please add it to your .env file.');
   }
 
-  // Build the system prompt
-  const systemPrompt = `You are an intelligent assistant that helps users discover relevant student projects from an archive.
+  // Build the system prompt based on whether it's small talk or project search
+  const systemPrompt = isSmallTalk
+    ? `You are a friendly, helpful AI assistant for a student projects archive.
+
+Your task:
+1. Respond to casual conversation naturally and warmly
+2. When greeting users, ask what kind of projects they're interested in
+3. Keep responses brief but engaging (1-2 sentences)
+4. Suggest topics they can ask about: mental health, productivity, wellness, stress, social connection
+5. Format your response as JSON
+
+Response format (strict JSON):
+{
+  "answer": "A warm, friendly response. For greetings, say hi and ask what projects they'd like to explore. Suggest example topics.",
+  "recommendedProjects": []
+}
+
+Examples:
+- User: "hi" → "Hi there! 👋 I can help you discover student projects from our archive. What are you interested in? Mental health, productivity, wellness, or something else?"
+- User: "thanks" → "You're welcome! Let me know if you'd like to explore more projects."
+
+Guidelines:
+- Be warm and conversational
+- Keep it brief (1-2 sentences)
+- Always suggest what they can ask about
+- No projects in small talk responses`
+    : `You are an intelligent assistant that helps users discover relevant student projects from an archive.
 
 Your task:
 1. Analyze the user's question carefully, considering the conversation history
@@ -52,19 +78,28 @@ Guidelines:
 - When user asks "tell me more about X", provide detailed, expanded information about that specific project
 - For follow-up questions, be more detailed and specific
 - Only recommend projects that truly match the user's question
-- Keep your answer concise for general queries, detailed for specific questions`;
+- Keep your answer concise for general queries, detailed for specific questions
+- If no projects are provided, politely suggest topics they can ask about: mental health, productivity, wellness, stress relief`;
 
-  // Build the user message with projects data
-  const projectsContext = relevantProjects.map(p =>
-    `ID: ${p.id}\nTitle: ${p.title}\nDescription: ${p.description}\nTags: ${p.tags.join(', ')}`
-  ).join('\n\n');
+  // Build the user message with projects data (if any)
+  let userPrompt;
 
-  const userPrompt = `User Question: "${userMessage}"
+  if (isSmallTalk || relevantProjects.length === 0) {
+    userPrompt = `User Message: "${userMessage}"
+
+Please respond in a friendly, conversational way.`;
+  } else {
+    const projectsContext = relevantProjects.map(p =>
+      `ID: ${p.id}\nTitle: ${p.title}\nDescription: ${p.description}\nTags: ${p.tags.join(', ')}`
+    ).join('\n\n');
+
+    userPrompt = `User Question: "${userMessage}"
 
 Available Projects:
 ${projectsContext}
 
 Please analyze the user's question and recommend the most relevant projects from the list above.`;
+  }
 
   // Build the messages array with conversation history
   const messages = [

@@ -4,6 +4,27 @@ const { callDeepSeek } = require('../services/deepseek');
 const projects = require('../data/projects.json');
 
 /**
+ * Detect if the message is small talk (greetings, casual conversation)
+ */
+function isSmallTalk(message) {
+  const messageLower = message.toLowerCase().trim();
+  const smallTalkPatterns = [
+    // Greetings
+    /^(hi|hey|hello|hoi|hola|hiya|sup|yo)$/i,
+    /^(hi|hey|hello|hoi|hola)\s*(there|guys?|everyone)?[!.]?$/i,
+    // How are you
+    /^(how are you|how's it going|what's up|wassup|whats up)/i,
+    // Thanks
+    /^(thanks?|thank you|thx|ty)$/i,
+    /^(ok|okay|cool|nice|great|awesome|perfect)$/i,
+    // Goodbyes
+    /^(bye|goodbye|see you|cya|later)$/i,
+  ];
+
+  return smallTalkPatterns.some(pattern => pattern.test(messageLower));
+}
+
+/**
  * Simple keyword matching to find relevant projects
  * TODO: Replace this with a proper vector database or semantic search later
  */
@@ -61,19 +82,31 @@ router.post('/', async (req, res) => {
       });
     }
 
+    // Check if it's small talk (greetings, casual conversation)
+    if (isSmallTalk(message)) {
+      // Let AI handle small talk without projects
+      const aiResponse = await callDeepSeek(message, [], conversationHistory || [], true);
+      return res.json({
+        answer: aiResponse.answer,
+        projects: []
+      });
+    }
+
     // Find relevant projects based on keywords
     const relevantProjects = findRelevantProjects(message);
 
-    // If no relevant projects found, return a helpful message
+    // If no relevant projects found, still ask the AI for a helpful response
     if (relevantProjects.length === 0) {
+      // Pass empty projects array but let AI respond helpfully
+      const aiResponse = await callDeepSeek(message, [], conversationHistory || [], false);
       return res.json({
-        answer: "I couldn't find any projects that match your query. Try asking about mental health, stress, productivity, or wellness-related projects.",
+        answer: aiResponse.answer,
         projects: []
       });
     }
 
     // Call DeepSeek API with the user message, relevant projects, and conversation history
-    const aiResponse = await callDeepSeek(message, relevantProjects, conversationHistory || []);
+    const aiResponse = await callDeepSeek(message, relevantProjects, conversationHistory || [], false);
 
     // Return the response
     res.json({
