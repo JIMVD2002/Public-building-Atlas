@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "title": "MindfulMoments",
+    "description": "A mobile app that helps users track their mood and provides mindfulness exercises tailored to their emotional state.",
+    "tags": ["mental health", "mindfulness", "stress", "well-being", "meditation"]
+  },
+  {
+    "id": 2,
+    "title": "BurnoutBuddy",
+    "description": "An AI-powered chatbot that detects early signs of burnout and suggests personalized recovery strategies.",
+    "tags": ["burn-out", "mental health", "stress", "work-life balance", "wellness"]
+  },
+  {
+    "id": 3,
+    "title": "ConnectCircle",
+    "description": "A social platform connecting students with similar interests for peer support and collaboration.",
+    "tags": ["social connection", "community", "peer support", "networking", "mental health"]
+  },
+  {
+    "id": 4,
+    "title": "StudyFlow",
+    "description": "A productivity tool that helps students manage their workload using the Pomodoro technique and stress management features.",
+    "tags": ["productivity", "stress", "time management", "study", "focus"]
+  },
+  {
+    "id": 5,
+    "title": "TherapyMatch",
+    "description": "A platform that matches students with affordable therapy options and mental health resources.",
+    "tags": ["mental health", "therapy", "counseling", "resources", "support"]
+  },
+  {
+    "id": 6,
+    "title": "BreathEasy",
+    "description": "A web application teaching breathing techniques and providing guided exercises for anxiety relief.",
+    "tags": ["anxiety", "stress", "breathing", "relaxation", "mental health"]
+  },
+  {
+    "id": 7,
+    "title": "SleepWell",
+    "description": "An app that tracks sleep patterns and provides recommendations for better sleep hygiene.",
+    "tags": ["sleep", "health", "wellness", "stress", "mental health"]
+  },
+  {
+    "id": 8,
+    "title": "GratitudeJournal",
+    "description": "A digital journaling platform focused on gratitude practice and positive psychology.",
+    "tags": ["mental health", "gratitude", "journaling", "positivity", "well-being"]
+  },
+  {
+    "id": 9,
+    "title": "FitnessForMind",
+    "description": "Combines physical exercise routines with mental health tracking to show the connection between body and mind.",
+    "tags": ["fitness", "mental health", "exercise", "wellness", "holistic health"]
+  },
+  {
+    "id": 10,
+    "title": "SafeSpace",
+    "description": "An anonymous peer support forum where students can share their struggles and receive support.",
+    "tags": ["mental health", "peer support", "community", "anonymous", "safe space"]
+  },
+  {
+    "id": 11,
+    "title": "FocusZone",
+    "description": "A browser extension that blocks distracting websites and helps students maintain focus during study sessions.",
+    "tags": ["productivity", "focus", "distraction", "study", "time management"]
+  },
+  {
+    "id": 12,
+    "title": "NutritionMood",
+    "description": "Tracks the relationship between diet and mood to help users understand how food affects their mental state.",
+    "tags": ["nutrition", "mental health", "wellness", "diet", "mood tracking"]
+  }
+]
