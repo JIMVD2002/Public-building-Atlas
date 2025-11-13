@@ -25,6 +25,88 @@ function isSmallTalk(message) {
 }
 
 /**
+ * Detect special commands (compare, filter, similar, quick facts, use case)
+ */
+function detectSpecialCommand(message) {
+  const messageLower = message.toLowerCase().trim();
+
+  // Compare command
+  if (/compare\s+.+\s+(and|with|vs)\s+.+/i.test(messageLower)) {
+    return 'compare';
+  }
+
+  // Filter command
+  if (/filter\s+by|show\s+me\s+(mobile|web|ai|only)/i.test(messageLower) ||
+      /mobile\s+apps?|web\s+apps?/i.test(messageLower)) {
+    return 'filter';
+  }
+
+  // Similar projects command
+  if (/similar\s+(to|projects?)|like\s+this|alternatives/i.test(messageLower)) {
+    return 'similar';
+  }
+
+  // Quick facts command
+  if (/quick\s+facts?|tell\s+me\s+facts?|facts?\s+about/i.test(messageLower)) {
+    return 'quick_facts';
+  }
+
+  // Use case / Emotional context
+  if (/^(i'm|i am|i feel)\s+(stressed|anxious|lonely|overwhelmed|burnout|burnt out|depressed|tired|exhausted|sad)/i.test(messageLower) ||
+      /help\s+me\s+with|struggling\s+with|dealing\s+with|i\s+can'?t\s+(focus|sleep|concentrate)/i.test(messageLower)) {
+    return 'use_case';
+  }
+
+  return null;
+}
+
+/**
+ * Enhanced project finding based on command type
+ */
+function findProjectsForCommand(userMessage, commandType, maxResults = 8) {
+  const messageLower = userMessage.toLowerCase();
+
+  switch (commandType) {
+    case 'compare':
+      // For compare, get ALL projects to let AI choose the right ones
+      return projects;
+
+    case 'filter':
+      // Filter by specific criteria
+      return projects.filter(project => {
+        const searchText = `${project.title} ${project.description} ${project.tags.join(' ')}`.toLowerCase();
+
+        if (messageLower.includes('mobile')) {
+          return searchText.includes('mobile') || searchText.includes('app');
+        }
+        if (messageLower.includes('web')) {
+          return searchText.includes('web') || searchText.includes('application');
+        }
+        if (messageLower.includes('ai')) {
+          return searchText.includes('ai') || searchText.includes('chatbot');
+        }
+
+        return true;
+      });
+
+    case 'similar':
+      // Return all projects so AI can find similar ones based on context
+      return projects;
+
+    case 'quick_facts':
+      // Return all projects so AI can find the specific one mentioned
+      return projects;
+
+    case 'use_case':
+      // For emotional/use case queries, use standard search
+      return findRelevantProjects(userMessage, maxResults);
+
+    default:
+      return findRelevantProjects(userMessage, maxResults);
+  }
+}
+
+/**
  * Simple keyword matching to find relevant projects
  * TODO: Replace this with a proper vector database or semantic search later
  */
@@ -92,8 +174,13 @@ router.post('/', async (req, res) => {
       });
     }
 
-    // Find relevant projects based on keywords
-    const relevantProjects = findRelevantProjects(message);
+    // Detect special commands
+    const commandType = detectSpecialCommand(message);
+
+    // Find relevant projects based on command type or keywords
+    const relevantProjects = commandType
+      ? findProjectsForCommand(message, commandType)
+      : findRelevantProjects(message);
 
     // If no relevant projects found, still ask the AI for a helpful response
     if (relevantProjects.length === 0) {
